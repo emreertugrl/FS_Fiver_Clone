@@ -1,7 +1,17 @@
 import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+//.env dosyasındaki değişkenlere erişme.
+dotenv.config();
+
+// veritabanı ile bağlantı kur
+mongoose
+  .connect(process.env.DATABASE_URL as string)
+  .then(() => console.log("Veritabanına bağlanıldı ✔✔✔"))
+  .catch((err) => console.log("Veritabanına bağlanamadı 💣💣💣", err));
 
 const app = express();
-const port = 3000;
 
 // middle wares
 app.use(express.json());
@@ -10,6 +20,6 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.listen(port, () => {
-  console.log(`✔✔✔ Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`✔✔✔ Server is running on port ${process.env.PORT}`);
 });
