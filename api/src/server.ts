@@ -2,6 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
+import authRouter from "./routes/auth.routes";
+import gigRouter from "./routes/gig.routes";
+import reviewRouter from "./routes/review.routes";
+
 //.env dosyasındaki değişkenlere erişme.
 dotenv.config();
 
@@ -15,6 +19,11 @@ const app = express();
 
 // middle wares
 app.use(express.json());
+
+// routes
+app.use("/api/auth", authRouter);
+app.use("/api/gigs", gigRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
