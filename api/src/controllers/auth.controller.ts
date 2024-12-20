@@ -3,27 +3,30 @@ import bcrypt from "bcrypt";
 import User, { IUser } from "../models/user.model.ts";
 import jwt from "jsonwebtoken";
 import error from "../utils/error.ts";
+import c from "../utils/catchAsync.ts";
 
 // ------------- Kayıt Ol ---------------
-export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  // şifreyi hashleme
-  const hashedPass: string = bcrypt.hashSync(req.body.password, 12);
+export const register = c(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // şifreyi hashleme
+    const hashedPass: string = bcrypt.hashSync(req.body.password, 12);
 
-  // Kullanıcıyı veritabanına kaydet
-  const newUser: IUser = await User.create({
-    ...req.body,
-    password: hashedPass,
-  });
+    // Kullanıcıyı veritabanına kaydet
+    const newUser: IUser = await User.create({
+      ...req.body,
+      password: hashedPass,
+    });
 
-  // password'i undefined olarak sıfırla (gizle)
-  // newUser.password = "";
-  const { password, ...userWithoutPass } = newUser;
+    // password'i undefined olarak sıfırla (gizle)
+    // newUser.password = "";
+    const { password, ...userWithoutPass } = newUser;
 
-  res.status(200).json({ message: "Hesabınız oluşturuldu", data: userWithoutPass });
-};
+    res.status(200).json({ message: "Hesabınız oluşturuldu", data: userWithoutPass });
+  }
+);
 
 // ------------- Giriş Yap ---------------
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const login = c(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // ismine göre kullanıcıyı ara
   const user: IUser | null = await User.findOne({ username: req.body.username });
 
@@ -51,9 +54,9 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     })
     .status(200)
     .json({ message: "Hesaba giriş yapıldı", token: token, user: user });
-};
+});
 
 // ------------- Çıkış Yap ---------------
-export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const logout = c(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   res.clearCookie("token").status(200).json({ message: "Hesaptan çıkış yapıldı" });
-};
+});
