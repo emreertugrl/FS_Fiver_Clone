@@ -4,7 +4,7 @@ import User from "./user";
 import Links from "./links";
 
 const Header = () => {
-  const user = true;
+  const user = false;
   return (
     <header className="p-5 shadow">
       <div className="max flex justify-between gap-4 md:gap-8">
