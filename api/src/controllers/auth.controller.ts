@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import User, { IUser } from "../models/user.model.ts";
 import jwt from "jsonwebtoken";
+import error from "../utils/error.ts";
 
 // ------------- Kayıt Ol ---------------
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -27,19 +28,13 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   const user: IUser | null = await User.findOne({ username: req.body.username });
 
   // kullanıcıyı bulamazsa hata gönder
-  if (!user) {
-    res.status(401).json({ message: "Kullanıcı bulunamadı" });
-    return;
-  }
+  if (!user) return next(error(404, "Girdiğiniz bilgiler yanlış"));
 
   // şifreyi doğrula
   const isMatch = bcrypt.compareSync(req.body.password, user.password);
 
   // şifreler eşleşmediyse hata gönder
-  if (!isMatch) {
-    res.status(401).json({ message: "Şifre yanlış" });
-    return;
-  }
+  if (!isMatch) return next(error(404, "Girdiğiniz bilgiler yanlış"));
 
   // token üret
   const token = jwt.sign({ id: user._id, isSeller: user.isSeller }, process.env.JWT_KEY as string, {
@@ -55,7 +50,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
       expires: new Date(Date.now() + 8 * 24 * 3600 * 1000), //14 gün
     })
     .status(200)
-    .json({ message: "Hesaba giriş yapıldı", token: token, user: userWithoutPass });
+    .json({ message: "Hesaba giriş yapıldı", token: token, user: user });
 };
 
 // ------------- Çıkış Yap ---------------
