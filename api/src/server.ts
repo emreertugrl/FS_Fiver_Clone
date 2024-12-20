@@ -2,9 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import authRouter from "./routes/auth.routes";
-import gigRouter from "./routes/gig.routes";
-import reviewRouter from "./routes/review.routes";
+import authRouter from "./routes/auth.routes.ts";
+import gigRouter from "./routes/gig.routes.ts";
+import reviewRouter from "./routes/review.routes.ts";
 
 //.env dosyasındaki değişkenlere erişme.
 dotenv.config();

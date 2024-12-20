@@ -1,29 +1,30 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import User, { IUser } from "../models/user.model";
+import User, { IUser } from "../models/user.model.ts";
 import jwt from "jsonwebtoken";
 
 // ------------- Kayıt Ol ---------------
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // şifreyi hashleme
-  const hashedPass = bcrypt.hashSync(req.body.password, 12);
+  const hashedPass: string = bcrypt.hashSync(req.body.password, 12);
 
   // Kullanıcıyı veritabanına kaydet
-  const newUser = await User.create({
+  const newUser: IUser = await User.create({
     ...req.body,
     password: hashedPass,
   });
 
   // password'i undefined olarak sıfırla (gizle)
-  newUser.password = undefined;
+  // newUser.password = "";
+  const { password, ...userWithoutPass } = newUser;
 
-  res.status(200).json({ message: "Hesabınız oluşturuldu", data: newUser });
+  res.status(200).json({ message: "Hesabınız oluşturuldu", data: userWithoutPass });
 };
 
 // ------------- Giriş Yap ---------------
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // ismine göre kullanıcıyı ara
-  const user: IUser = await User.findOne({ username: req.body.username });
+  const user: IUser | null = await User.findOne({ username: req.body.username });
 
   // kullanıcıyı bulamazsa hata gönder
   if (!user) {
@@ -45,7 +46,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     expiresIn: process.env.JWT_DURATION,
   });
   // şifre alanını kaldır
-  user.password = undefined;
+  const { password, ...userWithoutPass } = user;
 
   res
     .cookie("token", token, {
@@ -54,9 +55,10 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
       expires: new Date(Date.now() + 8 * 24 * 3600 * 1000), //14 gün
     })
     .status(200)
-    .json({ message: "Hesaba giriş yapıldı", token: token, user: user });
+    .json({ message: "Hesaba giriş yapıldı", token: token, user: userWithoutPass });
 };
 
+// ------------- Çıkış Yap ---------------
 export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   res.clearCookie("token").status(200).json({ message: "Hesaptan çıkış yapıldı" });
 };
