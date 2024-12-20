@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+
 const Hero = () => {
   const navigate = useNavigate();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -13,7 +14,7 @@ const Hero = () => {
   return (
     <div>
       <section className="bg-f-green max-md:-m-5 h-[40vh] text-white px-6 py-5 md:px-12 md:py-10 md:rounded-md flex flex-col justify-center items-center">
-        <div className="max-w-[600px]">
+        <div className="max-md:max-w-[600px] max-w-[800px]">
           <h1 className="text-4xl md:text-5xl font-light md:text-center">
             Profesyonel iş gücünüzü <span className="font-serif">freelancerlarla</span>{" "}
             ölçeklendirin
