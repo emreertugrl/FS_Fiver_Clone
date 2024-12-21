@@ -7,7 +7,7 @@ const Links = () => {
         Giriş Yap
       </Link>
       <Link
-        to="/signup"
+        to="/register"
         className="transition border rounded border-green-500 p-1 hover:bg-green-500 hover:text-white"
       >
         Kayıt Ol
