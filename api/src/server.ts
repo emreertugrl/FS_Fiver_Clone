@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import authRouter from "./routes/auth.routes.ts";
 import gigRouter from "./routes/gig.routes.ts";
@@ -20,6 +21,13 @@ const app = express();
 
 // middle wares
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // her yerden erişebilir
+    methods: ["GET, POST,PATCH, PUT, DELETE"],
+    credentials: true, // cookie'leri client'e gönderir
+  })
+);
 
 // routes
 app.use("/api/auth", authRouter);

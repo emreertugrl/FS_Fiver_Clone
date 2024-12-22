@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Input from "../../components/input";
 import Toggle from "../../components/input/toggle";
 import { Link } from "react-router-dom";
-import { IUser } from "../../types";
+import { IFormUser } from "../../types";
+import { AuthContext } from "../../context/authContext";
 
 const Register = () => {
   const [isSeller, setIsSeller] = useState<boolean>(false);
+
+  const { register } = useContext(AuthContext);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,8 +17,9 @@ const Register = () => {
     // bütün inputlardaki verileri nesne haline getir
     const newUser = Object.fromEntries(formData);
     // satıcı hesabı bilgisini nesne içine kaydet
-    (newUser as unknown as IUser).isSeller = isSeller;
+    (newUser as unknown as IFormUser).isSeller = isSeller;
     // apiye kaydolma isteği at
+    register(newUser as unknown as IFormUser);
   };
 
   return (
