@@ -18,10 +18,10 @@ export const register = c(
     });
 
     // password'i undefined olarak sıfırla (gizle)
-    // newUser.password = "";
-    const { password, ...userWithoutPass } = newUser;
+    newUser.password = "";
+    // const { password, ...userWithoutPass } = newUser;
 
-    res.status(200).json({ message: "Hesabınız oluşturuldu", data: userWithoutPass });
+    res.status(200).json({ message: "Hesabınız oluşturuldu", data: newUser });
   }
 );
 
@@ -44,12 +44,13 @@ export const login = c(async (req: Request, res: Response, next: NextFunction): 
     expiresIn: process.env.JWT_DURATION,
   });
   // şifre alanını kaldır
-  const { password, ...userWithoutPass } = user;
+  // const { password, ...userWithoutPass } = user;
+  user.password = "";
 
   res
     .cookie("token", token, {
-      httpOnly: true,
-      sameSite: "none",
+      httpOnly: false,
+      sameSite: "lax",
       expires: new Date(Date.now() + 8 * 24 * 3600 * 1000), //14 gün
     })
     .status(200)
@@ -59,4 +60,18 @@ export const login = c(async (req: Request, res: Response, next: NextFunction): 
 // ------------- Çıkış Yap ---------------
 export const logout = c(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   res.clearCookie("token").status(200).json({ message: "Hesaptan çıkış yapıldı" });
+});
+
+// ------------- Profil Bilgilerini Al ---------------
+export const profile = c(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  // req nesnesi içerisindeki kullanıcı id'sine karşılık gelen kullanıcının verilerini al
+  const user = await User.findById(req.userId);
+
+  // kullanıcıyı bulamazsa hata gönder
+  if (!user) return next(error(404, "Kullanıcı bulunamadı"));
+
+  // şifre alanını kaldır
+  user.password = "";
+
+  res.status(200).json({ message: "Profil bilgileri alındı", user });
 });

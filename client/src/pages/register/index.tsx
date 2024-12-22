@@ -3,12 +3,12 @@ import Input from "../../components/input";
 import Toggle from "../../components/input/toggle";
 import { Link } from "react-router-dom";
 import { IFormUser } from "../../types";
-import { AuthContext } from "../../context/authContext";
+import { useAuth } from "../../context/authContext";
 
 const Register = () => {
   const [isSeller, setIsSeller] = useState<boolean>(false);
 
-  const { register } = useContext(AuthContext);
+  const { register } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
