@@ -18,6 +18,7 @@ export interface IGig {
   package_duration: number;
   package_revisions: number;
   createdAt: string;
+  updatedAt: string;
 }
 // şema oluşturulur
 const gigSchema = new Schema<IGig>(
