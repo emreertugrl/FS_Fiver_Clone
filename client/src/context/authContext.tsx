@@ -24,6 +24,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // eğer token yoksa çalışmasın
+    const token = localStorage.getItem("token") || document.cookie;
+    if (!token) return;
     api
       .get("/auth/profile", {
         headers: {
@@ -51,7 +54,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         toast.info("Hesabınız Oluşturuldu");
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response?.data.message));
   };
 
   // giriş yap
@@ -68,11 +71,21 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         // yönlendirme
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response?.data.message));
   };
 
   // çıkış yap
-  const logout = () => {};
+  const logout = () => {
+    api
+      .post("/auth/logout")
+      .then(() => {
+        setUser(null);
+        localStorage.removeItem("token");
+        navigate("/login");
+        toast.info("Hesaptan çıkış yapıldı");
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <AuthContext.Provider value={{ user, logout, login, register }}>
