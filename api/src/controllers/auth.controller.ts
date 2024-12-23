@@ -4,12 +4,20 @@ import User, { IUser } from "../models/user.model.ts";
 import jwt from "jsonwebtoken";
 import error from "../utils/error.ts";
 import c from "../utils/catchAsync.ts";
+import cloudinary from "../utils/cloudinary.ts";
+import upload from "../utils/cloudinary.ts";
 
 // ------------- Kayıt Ol ---------------
 export const register = c(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // şifreyi hashleme
     const hashedPass: string = bcrypt.hashSync(req.body.password, 12);
+
+    // fotoğrafı buluta yükle
+    const image = await upload(req.file?.path as string, next);
+
+    // bulutta yüklenen fotoğrafın url'sini mongodb'ye kaydedilecek olan verinin içerisine ekle
+    req.body.photo = image.secure_url;
 
     // Kullanıcıyı veritabanına kaydet
     const newUser: IUser = await User.create({
