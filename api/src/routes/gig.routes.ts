@@ -16,7 +16,7 @@ router
     ]),
     createGig
   );
-router.route("/:id").get(getGig).delete(deleteGig);
+router.route("/:id").get(getGig).delete(protect, deleteGig);
 
 // 3) router'i app'e tanıtmak için export ederiz.
 

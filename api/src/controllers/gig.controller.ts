@@ -32,7 +32,8 @@ export const getAllGigs = c(
 );
 
 export const getGig = c(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  res.status(200).json({ message: "İşlem Başarılı" });
+  const gig = await Gig.findById(req.params.id).populate("user", "-password");
+  res.status(200).json({ gig, message: "Hizmet verisi alındı." });
 });
 
 export const createGig = c(
@@ -63,6 +64,15 @@ export const createGig = c(
 
 export const deleteGig = c(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    res.status(200).json({ message: "İşlem Başarılı" });
+    // hizmet detaylarını al
+    const gig = await Gig.findById(req.params.id);
+
+    // hizmet sahibi değilse hata döndür
+    // populate etmezsek string, populate edersek nesne oluyor
+    if (gig?.user != req.userId) return next(error(403, "Bu işlemi yapmaya yetkiniz yok."));
+    // hizmeti sil
+    await Gig.findByIdAndDelete(req.params.id);
+    // client cevap gönder
+    res.status(200).json({ message: "Hizmet başarıyla kaldırıldı" });
   }
 );
