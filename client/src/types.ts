@@ -36,3 +36,14 @@ export interface ILoginUser {
   username: string;
   password: string;
 }
+export interface InputI {
+  label: string;
+  name: string;
+  required?: boolean;
+  disabled?: boolean;
+  type?: "text" | "email" | "password" | "number" | "file" | "textarea";
+  min?: number;
+  max?: number;
+  placeholder?: string;
+  multiple?: boolean;
+}

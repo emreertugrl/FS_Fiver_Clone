@@ -10,7 +10,7 @@ import {
   FaBriefcase,
   FaUserTie,
 } from "react-icons/fa";
-import { ICategory, IInfo } from "../types";
+import { ICategory, IInfo, InputI } from "../types";
 
 export const categories: ICategory[] = [
   { name: "Programlama ve Teknoloji", icon: <FaCode /> },
@@ -43,48 +43,27 @@ export const items: IInfo[] = [
   },
 ];
 
-export const inputs = [
-  { label: "Başlık", name: "title", isReq: true },
-
-  { label: "Kapak Fotoğrafı", name: "cover", isReq: true, type: "file" },
-
-  {
-    label: "Fotoğraflar",
-    name: "images",
-    type: "file",
-    isReq: true,
-    isMulti: true,
-  },
-  {
-    label: "Revizyon Hakkı",
-    name: "revisionNumber",
-    type: "number",
-    isReq: true,
-    min: 1,
-  },
-
+export const inputs: InputI[] = [
+  { label: "Başlık", name: "title", required: true },
+  { label: "Kapak Fotoğrafı", name: "coverImage", required: true, type: "file" },
+  { label: "Fotoğraflar", name: "images", type: "file", required: true, multiple: true },
+  { label: "Revizyon Sayısı", name: "package_revisions", type: "number", required: true, min: 1 },
   {
     label: "Özellikler (',' ile ayırınız)",
-    name: "features",
+    name: "package_features",
+    required: true,
     type: "textarea",
   },
-  { label: "Açıklama", name: "desc", isReq: true, type: "textarea" },
-  { label: "Yan Açıklama", name: "shortDesc", isReq: true },
-  { label: "Yan Başlık", name: "shortTitle", isReq: true },
-
+  { label: "Açıklama", name: "description", required: true, type: "textarea" },
+  { label: "Paket Açıklama", name: "package_description", required: true },
+  { label: "Paket Başlık", name: "package_title", required: true },
   {
     label: "Teslimat Süresi (gün)",
-    name: "deliveryTime",
+    name: "package_duration",
     type: "number",
-    isReq: true,
+    required: true,
     min: 1,
     max: 90,
   },
-  {
-    label: "Fiyat ($)",
-    name: "price",
-    type: "number",
-    isReq: true,
-    min: 1,
-  },
+  { label: "Fiyat ($)", name: "package_price", type: "number", required: true, min: 1 },
 ];
