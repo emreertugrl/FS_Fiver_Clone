@@ -47,3 +47,28 @@ export interface InputI {
   placeholder?: string;
   multiple?: boolean;
 }
+
+export interface IGig {
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+    photo: string;
+  };
+  title: string;
+  description: string;
+  reviewCount: number;
+  starCount: number;
+  coverImage: string;
+  images: string[];
+  category: string;
+  package_title: string;
+  package_description: string;
+  package_price: number;
+  package_features: string[];
+  package_duration: number;
+  package_revisions: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
