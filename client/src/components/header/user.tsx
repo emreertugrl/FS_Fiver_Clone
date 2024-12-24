@@ -15,7 +15,7 @@ const User = ({ data, logout }: Props) => {
             <Link to="/my-gigs" className="px-5 py-2 hover:bg-gray-100 hover:rounded-t-md">
               Hizmetler
             </Link>
-            <Link to="/add-gigs" className="px-5 py-2 hover:bg-gray-100 text-nowrap">
+            <Link to="/add-gig" className="px-5 py-2 hover:bg-gray-100 text-nowrap">
               Hizmet Ekle
             </Link>
           </>
