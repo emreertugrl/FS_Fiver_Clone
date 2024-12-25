@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { IGig } from "../../types";
 import { FaStar } from "react-icons/fa";
+import Rating from "../rating";
 
 type Props = {
   item: IGig;
@@ -21,11 +22,8 @@ const Card = ({ item }: Props) => {
         </p>
       </div>
       <h2 className="line-clamp-2 group-hover:underline">{item.title}</h2>
-      <div className="flex items-center gap-1 font-semibold text-lg">
-        <FaStar />
-        <span>4.5</span>
-        <span className="font-normal text-gray-500">(1k+)</span>
-      </div>
+      <Rating rating={4.5} reviews={"1k+"} designs="font-semibold text-lg" />
+
       <p className="font-semibold">
         <span>{item.package_price.toLocaleString()} ₺</span>
         <span className="text-gray-500 font-normal">'den başlayan fiyatlarla</span>

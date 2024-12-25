@@ -32,6 +32,20 @@ export interface IUser {
   phone?: string;
 }
 
+export interface ISellerUser {
+  _id: string;
+  username: string;
+  email: string;
+  country: string;
+  photo: string;
+  isSeller: true;
+  createdAt: string;
+  updatedDate: string;
+  __v: number;
+  phone: string;
+  desc: string;
+}
+
 export interface ILoginUser {
   username: string;
   password: string;
@@ -71,4 +85,8 @@ export interface IGig {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface IGigDetail extends IGig {
+  user: ISellerUser;
 }
