@@ -7,7 +7,7 @@ type Props = {
 };
 const PackageInfo = ({ data }: Props) => {
   return (
-    <div className="h-fit flex flex-col gap-8 border shadow rounded-md p-5 mb-20 md:mt-20 md:sticky top-20">
+    <div className="h-fit flex flex-col gap-8 border shadow rounded-md p-5 mb-20 md:mt-20 lg:sticky top-20">
       <div className="flex justify-between">
         <h2 className="font-semibold text-xl capitalize">{data?.package_title}</h2>
         <p className="text-lg">{data.package_price.toLocaleString()} ₺</p>

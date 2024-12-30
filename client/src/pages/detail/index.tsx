@@ -25,7 +25,7 @@ const Detail = () => {
       ) : (
         data && (
           <div className="flex flex-col lg:flex-row gap-10">
-            <div className="lg:flex-1">
+            <div className="">
               <BreadCrumb category={data.category} />
               <GigInfo gig={data} />
               <UserInfo user={data.user} />
