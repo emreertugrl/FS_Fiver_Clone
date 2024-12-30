@@ -69,7 +69,7 @@ export const deleteGig = c(
 
     // hizmet sahibi değilse hata döndür
     // populate etmezsek string, populate edersek nesne oluyor
-    if (gig?.user != req.userId) return next(error(403, "Bu işlemi yapmaya yetkiniz yok."));
+    if (String(gig?.user) != req.userId) return next(error(403, "Bu işlemi yapmaya yetkiniz yok."));
     // hizmeti sil
     await Gig.findByIdAndDelete(req.params.id);
     // client cevap gönder

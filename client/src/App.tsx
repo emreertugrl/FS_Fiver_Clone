@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import Create from "./pages/create";
 import Search from "./pages/search";
 import Detail from "./pages/detail";
+import MyGigs from "./pages/my-gigs";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/add-gig" element={<Create />} />
+          <Route path="/my-gigs" element={<MyGigs />} />
           <Route path="/search" element={<Search />} />
           <Route path="/detail/:id" element={<Detail />} />
         </Routes>
