@@ -1,6 +1,7 @@
 import { ISellerUser } from "../../types";
 import Rating from "../../components/rating";
 import { PiStarFourFill } from "react-icons/pi";
+import { now } from "moment";
 
 type Props = {
   user: ISellerUser;
