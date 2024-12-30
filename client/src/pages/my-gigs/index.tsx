@@ -11,7 +11,7 @@ const MyGigs = () => {
   const { user } = useAuth();
   //   kullanıcıya ait hizmetleri alırız
   const { data, error, isLoading, refetch } = useQuery<IGig[]>({
-    queryKey: ["gigs", user],
+    queryKey: ["my-gigs", user],
     queryFn: () =>
       api.get("/gigs", { params: { userID: user?._id } }).then((res) => {
         return res.data.gigs;
