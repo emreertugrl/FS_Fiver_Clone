@@ -13,7 +13,7 @@ const Header = () => {
           <img src="/fiverr.png" alt="fiverr logo" className="w-[100px]" />
         </Link>
         <Form />
-        <div className="flex items-center gap-2 relative group">
+        <div className="flex items-center gap-2 relative group z-[99999]">
           {user ? <User data={user} logout={logout} /> : <Links />}
         </div>
       </div>
